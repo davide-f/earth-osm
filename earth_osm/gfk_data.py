@@ -19,6 +19,9 @@ import pandas as pd
 
 from earth_osm.gfk_download import download_sitemap
 
+import country_converter as coco
+cc = coco.CountryConverter()
+
 logger = logging.getLogger("osm_data_extractor")
 logger.setLevel(logging.DEBUG)
 
@@ -36,7 +39,8 @@ df = pd.DataFrame(row_list)
 # Add short code column
 col1 = df['iso3166-1:alpha2'].apply(lambda x: '-'.join(x) if type(x) == list else x)
 col2 = df['iso3166-2'].apply(lambda x: '-'.join(x) if type(x) == list else x)
-df['short_code'] = col1.combine_first(col2)
+col3 = cc.pandas_convert(series=df['name'], to="ISO2", not_found="not_found").replace({"not_found": None})
+df['short_code'] = col1.combine_first(col2).combine_first(col3)
 
 def get_geom_sitemap():
     geom_sitemap = download_sitemap(True, pkg_data_dir)

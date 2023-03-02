@@ -40,6 +40,7 @@ setup(
         "tqdm",
         "requests",
         "protobuf>=4.21.1",
+        "country_converter",
     ],
     extras_require={"test": [
         "pytest",

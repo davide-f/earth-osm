@@ -17,12 +17,22 @@ from shapely.geometry import LineString, Point, Polygon
 
 from earth_osm.config import primary_feature_element
 
+import country_converter as coco
+coco.logging.getLogger().setLevel(logging.CRITICAL)
+
 logger = logging.getLogger("osm_data_extractor")
 logger.setLevel(logging.INFO)
 
 # geo_crs: EPSG:4326  # general geographic projection, not used for metric measures. "EPSG:4326" is the standard used by OSM and google maps
 # distance_crs: EPSG:3857  # projection for distance measurements only. Possible recommended values are "EPSG:3857" (used by OSM and Google Maps)
 # area_crs: ESRI:54009  # projection for area measurements only. Possible recommended values are Global Mollweide "ESRI:54009"
+
+def to_iso2(country_name, not_found=""):
+    iso2_val = coco.convert(country_name, to="ISO2", not_found="not_found")
+    if iso2_val != "not_found":
+        return iso2_val
+    else:
+        return not_found
 
 def lonlat_lookup(df_way, primary_data):
     """
