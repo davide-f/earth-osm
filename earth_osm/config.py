@@ -14,6 +14,9 @@ primary_feature_element = {
         "line": ("way"),
         "tower": ("node"),
         "cable": ("way"),
+        },
+    "building": {
+        "default": ("node", "area"),
         }
     # add more primary features here
 }

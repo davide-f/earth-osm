@@ -108,11 +108,16 @@ def get_osm_data(
     region_tuple_list = [get_region_tuple(r) for r in region_list]
 
     for region in region_tuple_list:
-        for feature_name in feature_list:
-            df_feature = process_region(region, primary_name, feature_name, mp, update, data_dir)
+        if feature_list is None:
+            df_feature = process_region(region, primary_name, None, mp, update, data_dir)
 
-            output_creation(df_feature, primary_name, feature_name, [region], data_dir, out_format)
-            # TODO: add out_aggregate
+            output_creation(df_feature, primary_name, None, [region], data_dir, out_format)
+        else:
+            for feature_name in feature_list:
+                df_feature = process_region(region, primary_name, feature_name, mp, update, data_dir)
+
+                output_creation(df_feature, primary_name, feature_name, [region], data_dir, out_format)
+                # TODO: add out_aggregate
 
 
     # combinations = ((region, feature_name) for region in region_tuple_list for feature_name in feature_list)

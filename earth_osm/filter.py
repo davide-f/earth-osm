@@ -111,7 +111,8 @@ def get_filtered_data(region, primary_name, feature_name, mp, update, data_dir):
         primary_dict = run_primary_filter(PBF_inputfile, primary_file, primary_name, mp)
 
     # ------- feature file -------
-    feature_dict = run_feature_filter(primary_dict, feature_name)
+    if feature_name is not None:
+        feature_dict = run_feature_filter(primary_dict, feature_name)
 
     return primary_dict, feature_dict
 

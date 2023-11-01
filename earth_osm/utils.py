@@ -250,7 +250,11 @@ def output_creation(df_feature, primary_name, feature_name, region_list, data_di
 
     region_slug = get_region_slug(region_list) # country code e.g. BJ
     out_dir = os.path.join(data_dir, "out")  # Output file directory
-    out_slug = os.path.join(out_dir, f"{region_slug}_{feature_name}")
+    if feature_name is None:
+        output_name = f"{region_slug}_{primary_name}"
+    else:
+        output_name = f"{region_slug}_{feature_name}"
+    out_slug = os.path.join(out_dir, output_name)
     
 
     if not os.path.exists(out_dir):
@@ -262,7 +266,7 @@ def output_creation(df_feature, primary_name, feature_name, region_list, data_di
 
     # Generate Files
     if df_feature.empty:
-        logger.warning(f"feature data frame empty for {feature_name}")
+        logger.warning(f"feature data frame empty for {output_name}")
         return None
 
     if "csv" in out_format:
